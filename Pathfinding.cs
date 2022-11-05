@@ -53,7 +53,6 @@ public class Pathfinding : MonoBehaviour
                 if (currentNode == targetNode)
                 {
                     sw.Stop();
-                    print("Path found: " + sw.ElapsedMilliseconds + " ms");
                     pathSuccess = true;
 
                     break;
@@ -67,7 +66,7 @@ public class Pathfinding : MonoBehaviour
                         continue;
                     }
 
-                    int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour);
+                    int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour) + neighbour.movementPenalty;
 
                     if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
                     {
@@ -81,6 +80,10 @@ public class Pathfinding : MonoBehaviour
                         {
 
                             openSet.Add(neighbour);
+                        }
+                        else
+                        {
+                            openSet.UpdateItem(neighbour);
                         }
                     }
 
